@@ -1,0 +1,1 @@
+X = 3 Y = 4If X > Y:	Print(f”{X} is greater than {Y}”)Else:	Print(f”{X} is less than or equal to {Y}”)
