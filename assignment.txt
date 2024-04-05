@@ -7,3 +7,8 @@ Else:
 	Print(fÓ{X} is less than or equal to {Y}Ó)
 
 This is edit 1 edited by Joe
+
+#The above code is a simple conditional statement that compares two variables, X
+#and Y, and prints out whether X is greater than or equal to Y
+
+This is edit 2 edited by Justin
