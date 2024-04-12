@@ -1,28 +1,4 @@
 
-class Pet:
-    def __init__(self, name, pet_type, level=1, health="Healthy"):
-        self.name = name
-        self.pet_type = pet_type
-        self.level = level
-        self.health = health
-# This is Erick's function
-def choose_pet():
-    print("Choose your Pet!")
-    #Defining a pre-defined list of pet-types
-    pet_list=["dog", "cat", "bird", "fish", "lizard", "snake"]
-    print("Choose a pet from the following list:")
-    #
-    for index, type in enumerate(pet_list, start=1):
-        print(f"{index}. {type}")
-    choice = int(input("Enter the number to the pet of your choosing: "))
-    if choice <1 or choice > len(pet_list):
-        print("This choice is invalid and out of range. Please try again.")
-        return choose_pet()
-    name=input("Now that you've chosen your pet type, please name your pet: ")
-    return Pet(name, pet_list[choice-1])
-if 1 != 2:
-    print("test")
-
 #division of functions
 """
 
@@ -69,11 +45,38 @@ returns a message indicating the required level and that the pet cannot learn th
 """
 
 
+class Pet:
+    def __init__(self, name, pet_type, level=1, health="Healthy"):
+        self.name = name
+        self.pet_type = pet_type
+        self.level = level
+        self.health = health
+
+
+
+# This is Erick's function
+def choose_pet():
+    print("Choose your Pet!")
+    #Defining a pre-defined list of pet-types
+    pet_list=["dog", "cat", "bird", "fish", "lizard", "snake"]
+    print("Choose a pet from the following list:")
+    #
+    for index, type in enumerate(pet_list, start=1):
+        print(f"{index}. {type}")
+    choice = int(input("Enter the number to the pet of your choosing: "))
+    if choice <1 or choice > len(pet_list):
+        print("This choice is invalid and out of range. Please try again.")
+        return choose_pet()
+    name=input("Now that you've chosen your pet type, please name your pet: ")
+    return Pet(name, pet_list[choice-1])
+
+pet = choose_pet()
+print(f"Congrats! You have a pet! You have chosen a {pet.pet_type} named {pet.name}.")
+print(f"Your pet is currently at Level: {pet.level} and Health: {pet.health}.")
+
+
 
 #This is Justin's function
-
-
-
 def teach_trick(trick_name):
     #read the tricks from a file and build a dictionary of trick: required_level
     tricks = {}
@@ -96,6 +99,20 @@ def teach_trick(trick_name):
 
 
 
+#joseph's method
+def level_up(self, attention_points):
+    #define the threshold for leveling up
+    level_threshold = 15  
+    #check if the attention_points meet the threshold for leveling up
+    while attention_points >= level_threshold:
+        #increases the pet's level
+        self.level += 1
+        #updates attention_points after leveling up
+        attention_points -= level_threshold
+        #prints a message that the pet has leveled up
+        print(f"Congratulations! {self.name} has leveled up to level {self.level}!")
+    #print a message indicating the remaining attention needed to level up
+    print(f"{self.name} needs {level_threshold - attention_points} more attention to level up.")
 
 
 
@@ -124,7 +141,4 @@ actions such as selecting a pet, different modules such as the argparse module t
 command-line arguments, exception raising (ex: if pet cannot yet learn trick), and reading 
 from a text file for possible tricks that the pet can learn.
 
-pet = choose_pet()
-print(f"Congrats! You have a pet! You have chosen a {pet.pet_type} named {pet.name}.")
-print(f"Your pet is currently at Level: {pet.level} and Health: {pet.health}.")
 """
