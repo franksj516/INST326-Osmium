@@ -44,8 +44,27 @@ If the trick is available but the pet does not meet the required level, the meth
 returns a message indicating the required level and that the pet cannot learn the trick yet.
 
 """
+#This is Justin's function
 
+def teach_trick(trick_name):
+    #read the tricks from a file and build a dictionary of trick: required_level
+    tricks = {}
+    with open ("tricks.txt", "r") as file:
+        for line in file:
+            trick, level = line.strip().split(", ")
+            tricks[trick] = int(level)
 
+    #check if trick is in the file
+    if trick_name not in tricks:
+        print("This trick is not available.")
+        return
+    
+    #assuming we have a previously defined pet instance
+    if pet.level >= tricks[trick_name]:
+        pet.learn_trick(trick_name)
+    else :
+        required_level = tricks[trick_name]
+        print(f"Your pet needs to be level {required_level} to learn {trick_name}.")
 
 
 #project description
