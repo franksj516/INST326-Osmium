@@ -60,14 +60,17 @@ def choose_pet():
     #Defining a pre-defined list of pet-types
     pet_list=["dog", "cat", "bird", "fish", "lizard", "snake"]
     print("Choose a pet from the following list:")
-    #
+    # printing out the listed options that player can choose from for their pet breed
     for index, type in enumerate(pet_list, start=1):
         print(f"{index}. {type}")
     choice = int(input("Enter the number to the pet of your choosing: "))
+    # validation of whether or not the input falls under the indexed range
     if choice <1 or choice > len(pet_list):
         print("This choice is invalid and out of range. Please try again.")
         return choose_pet()
+    # input name of pet
     name=input("Now that you've chosen your pet type, please name your pet: ")
+    # creating an instance of the inputted pet name and chosen breed
     return Pet(name, pet_list[choice-1])
 
 pet = choose_pet()
