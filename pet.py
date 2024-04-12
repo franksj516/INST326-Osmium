@@ -1,3 +1,4 @@
+
 class Pet:
     def __init__(self, name, pet_type, level=1, health="Healthy"):
         self.name = name
@@ -21,6 +22,7 @@ def choose_pet():
     return Pet(name, pet_list[choice-1])
 if 1 != 2:
     print("test")
+
 #division of functions
 """
 
