@@ -11,9 +11,9 @@ Outcome: It returns an instance of the Pet class with the chosen
 attributes, initializing the pet's state, including name, type, 
 level, and health status.
 
-Joseph Franks: level up Function
+Joseph Franks: level up method
 Function/Method to Implement: level_up()
-Information Needed: the level-up functions will take one parameter, 
+Information Needed: the level-up method will take one parameter, 
 which will be attention_level (int). This number will reflect how many 
 actions the pet has gone through. 
 Outcome: The outcome of this function enables the user to have a pet 
@@ -51,6 +51,22 @@ class Pet:
         self.pet_type = pet_type
         self.level = level
         self.health = health
+
+    #joseph's method
+    def level_up(self, attention_points):
+        #define the threshold for leveling up
+        level_threshold = 15  
+        #check if the attention_points meet the threshold for leveling up
+        while attention_points >= level_threshold:
+            #increases the pet's level
+            self.level += 1
+            #updates attention_points after leveling up
+            attention_points -= level_threshold
+            #prints a message that the pet has leveled up
+            print(f"Congratulations! {self.name} has leveled up to level {self.level}!")
+        #print a message indicating the remaining attention needed to level up
+        print(f"{self.name} needs {level_threshold - attention_points} more attention to level up.")
+
 
 
 
@@ -102,20 +118,6 @@ def teach_trick(trick_name):
 
 
 
-#joseph's method
-def level_up(self, attention_points):
-    #define the threshold for leveling up
-    level_threshold = 15  
-    #check if the attention_points meet the threshold for leveling up
-    while attention_points >= level_threshold:
-        #increases the pet's level
-        self.level += 1
-        #updates attention_points after leveling up
-        attention_points -= level_threshold
-        #prints a message that the pet has leveled up
-        print(f"Congratulations! {self.name} has leveled up to level {self.level}!")
-    #print a message indicating the remaining attention needed to level up
-    print(f"{self.name} needs {level_threshold - attention_points} more attention to level up.")
 
 
 
