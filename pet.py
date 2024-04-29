@@ -51,6 +51,7 @@ class Pet:
         self.pet_type = pet_type
         self.level = level
         self.health = health
+        self.daily_activities = set()
 
     #joseph's method
     def level_up(self, attention_points):
@@ -116,8 +117,20 @@ def teach_trick(trick_name):
     else:
          print("This trick is not available.")
 
-
-
+    #perform_activity and reset_daily_activities dded by Justin 4/29, discuss with group
+    def perform_activity(self, activity):
+        available_activities = {"walk", "play", "groom", "teach trick" "feed"}
+        if activity in available_activities - self.daily_activities:
+            self.daily_activities.add(activity)
+            print(f"{self.name} has done {activity} today.")
+        else:
+            print(f"{self.name} has already done {activity} today or it is not available.")
+            
+    #We may need to make the player reset the day manually like so:
+    def reset_daily_activities(self):
+        self.daily_activities.clear()
+        print(f"Daily activities for {self.name} have been reset.")
+    #or we can figure out a way to auto reset based on system time
 
 
 
