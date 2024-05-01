@@ -1,0 +1,10 @@
+walk
+play
+feed
+sit 
+roll over
+jump
+shake
+lay down
+flip 
+fight
