@@ -119,12 +119,12 @@ def teach_trick(trick_name):
 
     #perform_activity and reset_daily_activities dded by Justin 4/29, discuss with group
     def perform_activity(self, activity):
-        available_activities = {"walk", "play", "groom", "teach trick" "feed"}
-        if activity in available_activities - self.daily_activities:
-            self.daily_activities.add(activity)
-            print(f"{self.name} has done {activity} today.")
-        else:
-            print(f"{self.name} has already done {activity} today or it is not available.")
+            available_activities = [line.strip() for line in file]        
+            if activity in available_activities - self.daily_activities:
+                self.daily_activities.add(activity)
+                print(f"{self.name} has done {activity} today.")
+            else:
+                print(f"{self.name} has already done {activity} today or it is not available.")
             
     #We may need to make the player reset the day manually like so:
     def reset_daily_activities(self):
