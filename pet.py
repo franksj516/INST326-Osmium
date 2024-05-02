@@ -95,26 +95,32 @@ class Pet:
 # This is Erick's function
 def choose_pet():
     print("Choose your Pet!")
-    #Defining a pre-defined list of pet-types
-    pet_list=["dog", "cat", "bird", "fish", "lizard", "snake"]
+    # Defining a pre-defined list of pet-types
+    pet_list = ["dog", "cat", "bird", "fish", "lizard", "snake"]
     print("Choose a pet from the following list:")
     # printing out the listed options that player can choose from for their pet breed
     for index, type in enumerate(pet_list, start=1):
         print(f"{index}. {type}")
     choice = int(input("Enter the number to the pet of your choosing: "))
     # validation of whether or not the input falls under the indexed range
-    if choice <1 or choice > len(pet_list):
+    if choice < 1 or choice > len(pet_list):
         print("This choice is invalid and out of range. Please try again.")
         return choose_pet()
     # input name of pet
-    name=input("Now that you've chosen your pet type, please name your pet: ")
+    name = input("Now that you've chosen your pet type, please name your pet: ")
     # creating an instance of the inputted pet name and chosen breed
-    return Pet(name, pet_list[choice-1])
+    pet = Pet(name, pet_list[choice - 1])
 
-pet = choose_pet()
-print(f"Congrats! You have a pet! You have chosen a {pet.pet_type} named {pet.name}.")
-print(f"Your pet is currently at Level: {pet.level}.")
+    # Load available tricks from the tricks.txt file
+    available_tricks = []
+    with open("tricks.txt", "r") as file:
+        # Read the first two lines of the file (assuming the first two tricks are at the top)
+        for _ in range(2):
+            trick = file.readline().strip()
+            if trick:  # Check if the line is not empty
+                available_tricks.append(trick)
 
+    return pet, available_tricks
 
 
     #perform_activity and reset_daily_activities dded by Justin 4/29, discuss with group
@@ -126,12 +132,47 @@ def perform_activity(self, activity):
         print(f"{self.name} has done {activity} today.")
     else:
         print(f"{self.name} has already done {activity} today or it is not available.")
-            
+
+
+def choose_activity(pet, available_tricks):
+    # Read actions from the text file and split them into present and past tense
+    present_tense_actions = []
+    past_tense_actions = []
+    with open("tricks.txt", "r") as file:
+        for line in file:
+            present, past = line.strip().split(", ")
+            present_tense_actions.append(present)
+            past_tense_actions.append(past)
+
+    print("Choose an action for your pet:")
+    for index, action in enumerate(available_tricks, start=1):
+        present_action, _ = action.split(", ")  # Split present tense action from past tense
+        print(f"{index}. {present_action}")
+    choice = int(input("Enter the number for the action you want to perform: "))
+    if choice < 1 or choice > len(available_tricks):
+        print("Invalid choice. Please try again.")
+        return choose_activity(pet, available_tricks)
+    chosen_action = available_tricks[choice - 1]
+    # Retrieve the corresponding past tense action
+    _, past_action = chosen_action.split(", ")  # Split past tense action from present tense
+    print(f"{pet.name} {past_action}.")
+    # Increment attention level (assuming attention level is stored elsewhere)
+    return pet
+
+
+
     #We may need to make the player reset the day manually like so:
 def reset_daily_activities(self):
     self.daily_activities.clear()
     print(f"Daily activities for {self.name} have been reset.")
     #or we can figure out a way to auto reset based on system time
+
+# Choose a pet
+pet, available_tricks = choose_pet()
+print(f"Congrats! You have a pet! You have chosen a {pet.pet_type} named {pet.name}.")
+print(f"Your pet is currently at Level: {pet.level}.")
+pet = choose_activity(pet, available_tricks)
+
 
 
 

@@ -1,11 +1,11 @@
-feed
-pet
-walk
-play
-sit 
-roll over
-jump
-shake
-lay down
-flip 
-fight
+feed, was fed
+pet, was pet
+walk, was walked
+play, was played with
+sit, sat down
+roll over, rolled over
+jump, jumped
+shake, shook
+lay down, layed
+flip, flipped
+fight, fought
