@@ -133,7 +133,7 @@ def perform_activity(self, activity):
     else:
         print(f"{self.name} has already done {activity} today or it is not available.")
 
-
+#joe's function
 def choose_activity(pet, available_tricks):
     # Read actions from the text file and split them into present and past tense
     present_tense_actions = []
