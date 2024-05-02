@@ -46,27 +46,48 @@ returns a message indicating the required level and that the pet cannot learn th
 
 
 class Pet:
-    def __init__(self, name, pet_type, level=1, health="Healthy"):
+    def __init__(self, name, pet_type, level=1):
         self.name = name
         self.pet_type = pet_type
         self.level = level
-        self.health = health
+
         self.daily_activities = set()
 
-    #joseph's method
+
+
+
+    # Method to teach a trick to the pet
+    def teach_trick(self, trick_name, tricks):
+        # Check if the trick is in the tricks file
+        if trick_name in tricks:
+            # Check if the pet meets the required level to learn the trick
+            if self.level >= tricks[trick_name]:
+                # Add the trick to the pet's skills
+                self.skills.append(trick_name)
+                print(f"{self.name} has learned the trick: {trick_name}!")
+                # Increase pet's happiness level or perform other actions
+            else:
+                # Inform the player that the pet needs a higher level to learn the trick
+                required_level = tricks[trick_name]
+                print(f"{self.name} needs to be level {required_level} to learn {trick_name}.")
+        else:
+            # Inform the player that the trick is not available
+            print(f"The trick {trick_name} is not available.")
+
+    # Method to level up the pet
     def level_up(self, attention_points):
-        #define the threshold for leveling up
-        level_threshold = 15  
-        #check if the attention_points meet the threshold for leveling up
+        # Increase the pet's level based on attention points
+        level_threshold = 3
         while attention_points >= level_threshold:
-            #increases the pet's level
             self.level += 1
-            #updates attention_points after leveling up
-            attention_points -= level_threshold
-            #prints a message that the pet has leveled up
             print(f"Congratulations! {self.name} has leveled up to level {self.level}!")
-        #print a message indicating the remaining attention needed to level up
+            # Check if the pet can learn a new trick at this level
+            if self.level <= len(tricks):
+                new_trick = list(tricks.keys())[self.level - 1]
+                self.teach_trick(new_trick)
+            attention_points -= level_threshold
         print(f"{self.name} needs {level_threshold - attention_points} more attention to level up.")
+
 
 
 
@@ -92,44 +113,24 @@ def choose_pet():
 
 pet = choose_pet()
 print(f"Congrats! You have a pet! You have chosen a {pet.pet_type} named {pet.name}.")
-print(f"Your pet is currently at Level: {pet.level} and Health: {pet.health}.")
+print(f"Your pet is currently at Level: {pet.level}.")
 
 
-
-#This is Justin's function
-def teach_trick(trick_name):
-    #read the tricks from a file and build a dictionary of trick: required_level
-    tricks = {}
-    with open ("tricks.txt", "r") as file:
-        for line in file:
-            trick, level = line.strip().split(", ")
-            tricks[trick] = int(level)
-
-    #check if trick is in the file
-    if trick_name in tricks:
-
-    #assuming we have a previously defined pet instance
-        if pet.level >= tricks[trick_name]:
-            pet.learn_trick(trick_name)
-        else :
-            required_level = tricks[trick_name]
-            print(f"Your pet needs to be level {required_level} to learn {trick_name}.")
-    else:
-         print("This trick is not available.")
 
     #perform_activity and reset_daily_activities dded by Justin 4/29, discuss with group
-    def perform_activity(self, activity):
-            available_activities = [line.strip() for line in file]        
-            if activity in available_activities - self.daily_activities:
-                self.daily_activities.add(activity)
-                print(f"{self.name} has done {activity} today.")
-            else:
-                print(f"{self.name} has already done {activity} today or it is not available.")
+def perform_activity(self, activity):
+    with open("activities.txt", "r") as file:
+        available_activities = [line.strip() for line in file]        
+    if activity in available_activities - self.daily_activities:
+        self.daily_activities.add(activity)
+        print(f"{self.name} has done {activity} today.")
+    else:
+        print(f"{self.name} has already done {activity} today or it is not available.")
             
     #We may need to make the player reset the day manually like so:
-    def reset_daily_activities(self):
-        self.daily_activities.clear()
-        print(f"Daily activities for {self.name} have been reset.")
+def reset_daily_activities(self):
+    self.daily_activities.clear()
+    print(f"Daily activities for {self.name} have been reset.")
     #or we can figure out a way to auto reset based on system time
 
 

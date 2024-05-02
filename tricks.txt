@@ -1,6 +1,7 @@
+feed
+pet
 walk
 play
-feed
 sit 
 roll over
 jump
