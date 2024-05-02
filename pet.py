@@ -149,10 +149,10 @@ def choose_activity(pet, available_tricks):
         present_action, _ = action.split(", ")  # Split present tense action from past tense
         print(f"{index}. {present_action}")
     choice = int(input("Enter the number for the action you want to perform: "))
-    if choice < 1 or choice > len(available_tricks):
+    chosen_action = available_tricks[choice - 1] if 1 <= choice <= len(available_tricks) else None
+    if chosen_action is None:
         print("Invalid choice. Please try again.")
         return choose_activity(pet, available_tricks)
-    chosen_action = available_tricks[choice - 1]
     # Retrieve the corresponding past tense action
     _, past_action = chosen_action.split(", ")  # Split past tense action from present tense
     print(f"{pet.name} {past_action}.")
