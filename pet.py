@@ -63,7 +63,7 @@ class Pet:
             # Check if the pet meets the required level to learn the trick
             if self.level >= tricks[trick_name]:
                 # Add the trick to the pet's skills
-                self.skills.append(trick_name)
+                self.skills.add(trick_name)
                 print(f"{self.name} has learned the trick: {trick_name}!")
                 # Increase pet's happiness level or perform other actions
             else:
@@ -75,18 +75,19 @@ class Pet:
             print(f"The trick {trick_name} is not available.")
 
     # Method to level up the pet
-    def level_up(self, attention_points):
+    def level_up(self, attention_points, level_requirements):
         # Increase the pet's level based on attention points
-        level_threshold = 3
+        level_threshold = 7
         while attention_points >= level_threshold:
             self.level += 1
             print(f"Congratulations! {self.name} has leveled up to level {self.level}!")
             # Check if the pet can learn a new trick at this level
-            if self.level <= len(tricks):
-                new_trick = list(tricks.keys())[self.level - 1]
-                self.teach_trick(new_trick)
+            if self.level <= len(level_requirements):
+                new_trick = list(level_requirements.keys())[self.level - 1]
+                self.teach_trick(new_trick, level_requirements)
             attention_points -= level_threshold
         print(f"{self.name} needs {level_threshold - attention_points} more attention to level up.")
+
 
 
 
@@ -95,32 +96,28 @@ class Pet:
 # This is Erick's function
 def choose_pet():
     print("Choose your Pet!")
-    # Defining a pre-defined list of pet-types
     pet_list = ["dog", "cat", "bird", "fish", "lizard", "snake"]
     print("Choose a pet from the following list:")
-    # printing out the listed options that player can choose from for their pet breed
     for index, type in enumerate(pet_list, start=1):
         print(f"{index}. {type}")
     choice = int(input("Enter the number to the pet of your choosing: "))
-    # validation of whether or not the input falls under the indexed range
     if choice < 1 or choice > len(pet_list):
         print("This choice is invalid and out of range. Please try again.")
         return choose_pet()
-    # input name of pet
     name = input("Now that you've chosen your pet type, please name your pet: ")
-    # creating an instance of the inputted pet name and chosen breed
     pet = Pet(name, pet_list[choice - 1])
 
-    # Load available tricks from the tricks.txt file
-    available_tricks = []
-    with open("tricks.txt", "r") as file:
-        # Read the first two lines of the file (assuming the first two tricks are at the top)
-        for _ in range(2):
-            trick = file.readline().strip()
-            if trick:  # Check if the line is not empty
-                available_tricks.append(trick)
+    # Load available tricks from the test.txt file
+    level_requirements = {}
+    with open("test.txt", "r") as file:
+        for line in file:
+            elements = line.strip().split(", ")
+            present_tense = elements[0]
+            past_tense = elements[1] if len(elements) > 1 else elements[0]
+            level = int(elements[2])
+            level_requirements[present_tense] = (past_tense, level)
 
-    return pet, available_tricks
+    return pet, level_requirements
 
 
     #perform_activity and reset_daily_activities dded by Justin 4/29, discuss with group
@@ -133,30 +130,26 @@ def perform_activity(self, activity):
     else:
         print(f"{self.name} has already done {activity} today or it is not available.")
 
-#joe's function
-def choose_activity(pet, available_tricks):
-    # Read actions from the text file and split them into present and past tense
-    present_tense_actions = []
-    past_tense_actions = []
-    with open("tricks.txt", "r") as file:
-        for line in file:
-            present, past = line.strip().split(", ")
-            present_tense_actions.append(present)
-            past_tense_actions.append(past)
-
-    print("Choose an action for your pet:")
-    for index, action in enumerate(available_tricks, start=1):
-        present_action, _ = action.split(", ")  # Split present tense action from past tense
-        print(f"{index}. {present_action}")
-    choice = int(input("Enter the number for the action you want to perform: "))
-    chosen_action = available_tricks[choice - 1] if 1 <= choice <= len(available_tricks) else None
-    if chosen_action is None:
-        print("Invalid choice. Please try again.")
-        return choose_activity(pet, available_tricks)
-    # Retrieve the corresponding past tense action
-    _, past_action = chosen_action.split(", ")  # Split past tense action from present tense
-    print(f"{pet.name} {past_action}.")
-    # Increment attention level (assuming attention level is stored elsewhere)
+def choose_activity(pet, level_requirements):
+    while True:
+        print("Choose an action for your pet:")
+        for index, action in enumerate(level_requirements.keys(), start=1):
+            present_action, past_action = action, level_requirements[action][0]
+            print(f"{index}. {present_action}")
+        choice = int(input("Enter the number for the action you want to perform: "))
+        
+        if 1 <= choice <= len(level_requirements):
+            chosen_action = list(level_requirements.keys())[choice - 1]
+            past_action, level_requirement = level_requirements[chosen_action]
+            
+            if pet.level >= level_requirement:
+                print(f"{pet.name} {past_action}.")
+                # Increment attention level (assuming attention level is stored elsewhere)
+                break  # Exit the loop if the action is performed successfully
+            else:
+                print(f"{pet.name} needs to be level {level_requirement} to perform {chosen_action}.")
+        else:
+            print("Invalid choice. Please try again.")
     return pet
 
 
