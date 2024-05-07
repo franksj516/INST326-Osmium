@@ -6,10 +6,12 @@ class Pet:
         self.name = name
         self.pet_type = pet_type
         self.level = level
-        self.health = 25  # Starting health at 100%
-        self.happiness = 10  # Starting happiness at 50 points
+        self.health = 25  # Starting health at 25%
+        self.happiness = 10  # Starting happiness at 10 points
         self.skills = []  # List to store learned tricks
         self.daily_activities = set()
+        self.activity_count = 0 # count of instances of feeding and playing
+        self.level_up_threshold = 5 #num activities req to level up initially
 
     def teach_trick(self, trick_name, past_tense, required_happiness):
         if self.happiness >= required_happiness:
@@ -23,7 +25,9 @@ class Pet:
         if self.health < 100:
             self.health += 20
             self.health = min(self.health, 100)
+            self.activity_count += 1
             print(f"{self.name} was fed and looks healthier!")
+            self.check_level_up()
         else:
             print(f"{self.name} is already well-fed.")
 
@@ -32,13 +36,21 @@ class Pet:
         if self.happiness < 100:
             self.happiness += 5
             self.happiness = min(self.happiness, 300)
+            self.activity_count += 1
             print(f"{self.name} played and looks happier!")
             self.health -= 10
             if self.health <= 15:           
                 print(f"Feed your pet! It's health is almost depleted")
+            self.check_level_up()
         else:
             print(f"{self.name} is already very happy.")
 
+    def check_level_up(self):
+            if self.activity_count >= self.level_up_threshold:
+                self.level += 1
+                self.level_up_threshold += 2  # Increase the threshold for the next level
+                self.activity_count = 0  # Reset the activity count
+                print(f"{self.name} has leveled up to level {self.level}!")
 
 def choose_pet():
     print("Choose your Pet!")
