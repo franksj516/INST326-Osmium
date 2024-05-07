@@ -1,49 +1,4 @@
 
-#division of functions
-"""
-
-Erick Rivadeneira: Pet Selection and Initialization
-Function/Method to Implement: choose_pet()
-Information Needed: This method will prompt the player to 
-choose a pet type and its characteristics (e.g., breed, name) 
-through command-line input or selection from a predefined list.
-Outcome: It returns an instance of the Pet class with the chosen 
-attributes, initializing the pet's state, including name, type, 
-level, and health status.
-
-Joseph Franks: level up method
-Function/Method to Implement: level_up()
-Information Needed: the level-up method will take one parameter, 
-which will be attention_level (int). This number will reflect how many 
-actions the pet has gone through. 
-Outcome: The outcome of this function enables the user to have a pet 
-that can do more than just be petted and fed. There are all sorts of 
-different actions that we may be able to teach the pet, but it can only 
-happen when the pet levels up. Attention_level will be a number that 
-reflects how many times a specific action has been done. This will be 
-used inside of a while statement. While attention_level is less than the 
-required amount of attention the pet needs to level up, the pet will not 
-level up.
-
-Justin Fargnoli: Pet Activity Function
-Function/Method to Implement: teach_trick(trick_name)
-Information Needed: The teach_trick function will take the following parameters: 
-the trick_name (str) which is the name of the trick to be taught, passed as an argument 
-to the method, pet (pet object), an instance of the pet class representing the player’s 
-pet, and tricks_file_path (str), the path to the text file containing the tricks and the 
-corresponding required levels. This file acts as an external database that the method will 
-read to determine if a trick is available and what level the pet needs to be to learn it.
-Outcome:  If the trick is in the text file and the pet meets the required level, the pet's 
-skills are updated to include the new trick, and its happiness level may increase. 
-The function returns a success message indicating the pet has learned the trick.
-If the trick is not in the text file, it prints a message to the user stating 
-that the trick is not available. This provides immediate feedback and guides the 
-player to select from the available tricks.
-If the trick is available but the pet does not meet the required level, the method 
-returns a message indicating the required level and that the pet cannot learn the trick yet.
-
-"""
-
 import sys
 
 class Pet:
@@ -51,7 +6,7 @@ class Pet:
         self.name = name
         self.pet_type = pet_type
         self.level = level
-        self.health = 100  # Starting health at 100%
+        self.health = 25  # Starting health at 100%
         self.happiness = 10  # Starting happiness at 50 points
         self.skills = []  # List to store learned tricks
         self.daily_activities = set()
@@ -66,7 +21,7 @@ class Pet:
 
     def feed(self):
         if self.health < 100:
-            self.health += 10
+            self.health += 20
             self.health = min(self.health, 100)
             print(f"{self.name} was fed and looks healthier!")
         else:
@@ -76,12 +31,11 @@ class Pet:
     def play(self):
         if self.happiness < 100:
             self.happiness += 5
-            self.happiness = min(0, 300)
+            self.happiness = min(self.happiness, 300)
             print(f"{self.name} played and looks happier!")
-            self.health -= 5
+            self.health -= 10
             if self.health <= 15:           
                 print(f"Feed your pet! It's health is almost depleted")
-                
         else:
             print(f"{self.name} is already very happy.")
 
@@ -105,7 +59,8 @@ def choose_activity(pet):
     with open("tricks.txt", "r") as file:
         tricks = [line.strip().split(", ") for line in file if line.strip()]
     for index, (present, past, happiness) in enumerate(tricks, start=1):
-        print(f"{index}. {present}")
+        required_happiness = int(happiness)  # Declare required_happiness here
+        print(f"{index}. {present} (requires {required_happiness} happiness points)")
     choice = int(input("Enter the number for the action you want to perform: "))
     if 1 <= choice <= len(tricks):
         present_action, past_action, required_happiness = tricks[choice - 1]
@@ -282,6 +237,55 @@ pet = choose_activity(pet, available_tricks)
 
 #project description
 """
+
+
+#division of functions
+"""
+
+Erick Rivadeneira: Pet Selection and Initialization
+Function/Method to Implement: choose_pet()
+Information Needed: This method will prompt the player to 
+choose a pet type and its characteristics (e.g., breed, name) 
+through command-line input or selection from a predefined list.
+Outcome: It returns an instance of the Pet class with the chosen 
+attributes, initializing the pet's state, including name, type, 
+level, and health status.
+
+Joseph Franks: level up method
+Function/Method to Implement: level_up()
+Information Needed: the level-up method will take one parameter, 
+which will be attention_level (int). This number will reflect how many 
+actions the pet has gone through. 
+Outcome: The outcome of this function enables the user to have a pet 
+that can do more than just be petted and fed. There are all sorts of 
+different actions that we may be able to teach the pet, but it can only 
+happen when the pet levels up. Attention_level will be a number that 
+reflects how many times a specific action has been done. This will be 
+used inside of a while statement. While attention_level is less than the 
+required amount of attention the pet needs to level up, the pet will not 
+level up.
+
+Justin Fargnoli: Pet Activity Function
+Function/Method to Implement: teach_trick(trick_name)
+Information Needed: The teach_trick function will take the following parameters: 
+the trick_name (str) which is the name of the trick to be taught, passed as an argument 
+to the method, pet (pet object), an instance of the pet class representing the player’s 
+pet, and tricks_file_path (str), the path to the text file containing the tricks and the 
+corresponding required levels. This file acts as an external database that the method will 
+read to determine if a trick is available and what level the pet needs to be to learn it.
+Outcome:  If the trick is in the text file and the pet meets the required level, the pet's 
+skills are updated to include the new trick, and its happiness level may increase. 
+The function returns a success message indicating the pet has learned the trick.
+If the trick is not in the text file, it prints a message to the user stating 
+that the trick is not available. This provides immediate feedback and guides the 
+player to select from the available tricks.
+If the trick is available but the pet does not meet the required level, the method 
+returns a message indicating the required level and that the pet cannot learn the trick yet.
+
+"""
+
+
+
 """"
 
 Our group decided to choose a virtual pet simulation for our final project. 
