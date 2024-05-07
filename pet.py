@@ -44,23 +44,25 @@ returns a message indicating the required level and that the pet cannot learn th
 
 """
 
+import sys
+
 class Pet:
     def __init__(self, name, pet_type, level=1):
         self.name = name
         self.pet_type = pet_type
         self.level = level
         self.health = 100  # Starting health at 100%
-        self.happiness = 50  # Starting happiness at 50%
+        self.happiness = 10  # Starting happiness at 50 points
         self.skills = []  # List to store learned tricks
         self.daily_activities = set()
 
-    def teach_trick(self, trick_name, past_tense):
-        # Assuming all tricks can be learned at any level for simplicity; modify as needed
-        if trick_name not in self.skills:
-            self.skills.append(trick_name)
-            print(f"{self.name} has learned the trick: {trick_name}!")
+    def teach_trick(self, trick_name, past_tense, required_happiness):
+        if self.happiness >= required_happiness:
+            if trick_name not in self.skills:
+                self.skills.append(trick_name)
+                print(f"{self.name} has learned the trick: {trick_name}!")
         else:
-            print(f"{self.name} already knows {trick_name}.")
+            print(f"{self.name} is not happy enough to learn {trick_name}.")
 
     def feed(self):
         if self.health < 100:
@@ -70,13 +72,19 @@ class Pet:
         else:
             print(f"{self.name} is already well-fed.")
 
+
     def play(self):
         if self.happiness < 100:
-            self.happiness += 20
-            self.happiness = min(self.happiness, 100)
+            self.happiness += 5
+            self.happiness = min(0, 300)
             print(f"{self.name} played and looks happier!")
+            self.health -= 5
+            if self.health <= 15:           
+                print(f"Feed your pet! It's health is almost depleted")
+                
         else:
             print(f"{self.name} is already very happy.")
+
 
 def choose_pet():
     print("Choose your Pet!")
@@ -94,22 +102,27 @@ def choose_pet():
 
 def choose_activity(pet):
     print("Choose an action for your pet:")
-    with open("tricks2.txt", "r") as file:
+    with open("tricks.txt", "r") as file:
         tricks = [line.strip().split(", ") for line in file if line.strip()]
-    for index, (present, past) in enumerate(tricks, start=1):
-        print(f"{index}. {present} ({past})")
+    for index, (present, past, happiness) in enumerate(tricks, start=1):
+        print(f"{index}. {present}")
     choice = int(input("Enter the number for the action you want to perform: "))
     if 1 <= choice <= len(tricks):
-        present_action, past_action = tricks[choice - 1]
-        pet.teach_trick(present_action, past_action)
-        print(f"{pet.name} {past_action}.")
+        present_action, past_action, required_happiness = tricks[choice - 1]
+        required_happiness = int(required_happiness)
+        if pet.happiness >= required_happiness:
+            pet.teach_trick(present_action, past_action, required_happiness)
+            print(f"{pet.name} {past_action}.")
+        else:
+            print(f"{pet.name} is not happy enough to learn {present_action}.")
     else:
         print("Invalid choice. Please try again.")
+
 
 def show_pet_status(pet):
     print(f"{pet.name}'s Status:")
     print(f"Health: {pet.health}%")
-    print(f"Happiness: {pet.happiness}%")
+    print(f"Happiness: {pet.happiness} Points")
     print(f"Level: {pet.level}")
     print(f"Skills: {', '.join(pet.skills)}")
 
