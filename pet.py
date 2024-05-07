@@ -1,4 +1,5 @@
-
+import random
+import json
 import sys
 
 class Pet:
@@ -9,9 +10,11 @@ class Pet:
         self.health = 25  # Starting health at 25%
         self.happiness = 10  # Starting happiness at 10 points
         self.skills = []  # List to store learned tricks
-        self.daily_activities = set()
         self.activity_count = 0 # count of instances of feeding and playing
         self.level_up_threshold = 5 #num activities req to level up initially
+        self.prize_range = 10  # Range of numbers for the mini-game
+        self.prize_attempts = 5  # Number of attempts for the mini-game
+        self.customizations = {}
 
     def teach_trick(self, trick_name, past_tense, required_happiness):
         if self.happiness >= required_happiness:
@@ -51,6 +54,51 @@ class Pet:
                 self.level_up_threshold += 2  # Increase the threshold for the next level
                 self.activity_count = 0  # Reset the activity count
                 print(f"{self.name} has leveled up to level {self.level}!")
+                print("Let's play a mini-game for a prize.")
+                target_number = random.randint(1, self.prize_range)
+                print(f"I'm thinking of a number between 1 and {self.prize_range}. Guess it!")
+                for attempt in range(self.prize_attempts):
+                    guess = int(input(f"Attempt {attempt+1}/{self.prize_attempts}: Enter your guess: "))
+                    if guess == target_number:
+                        print("Congratulations! You guessed the correct number!")
+                        # Give the pet a prize or perform any other action
+                        self.customize_pet()
+                        break
+                    elif guess < target_number:
+                        print("Too low! Try a higher number.")
+                    else:
+                        print("Too high! Try a lower number.")
+                else:
+                    print(f"Sorry, you've run out of attempts. The number was {target_number}. Better luck next time!")
+
+
+    def customize_pet(self):
+        with open("customization_options.json", "r") as file:
+            customization_options = json.load(file)["customization_options"]
+
+        print("Choose a category to customize your pet:")
+        for index, category in enumerate(customization_options.keys(), start=1):
+            print(f"{index}. {category}")
+
+        category_choice = int(input("Enter the number for the category you want to choose: "))
+        selected_category = list(customization_options.keys())[category_choice - 1]
+
+        # Check if the category already has a customization
+        if selected_category in self.customizations:
+            del self.customizations[selected_category]  # Remove the previous customization
+
+        print(f"Choose an option from the {selected_category} category:")
+        for index, option in enumerate(customization_options[selected_category], start=1):
+            print(f"{index}. {option}")
+
+        option_choice = int(input("Enter the number for the option you want to choose: "))
+        selected_option = customization_options[selected_category][option_choice - 1]
+
+        # Add the new customization to the list
+        self.customizations[selected_category] = selected_option
+
+        print(f"{self.name} has been customized with a/an {selected_option}!")
+
 
 def choose_pet():
     print("Choose your Pet!")
@@ -86,12 +134,23 @@ def choose_activity(pet):
         print("Invalid choice. Please try again.")
 
 
+
+
+
+
+
+
 def show_pet_status(pet):
     print(f"{pet.name}'s Status:")
     print(f"Health: {pet.health}%")
     print(f"Happiness: {pet.happiness} Points")
     print(f"Level: {pet.level}")
     print(f"Skills: {', '.join(pet.skills)}")
+    if pet.customizations:
+        print("Customizations:")
+        for category, option in pet.customizations.items():
+            print(f"{category}: {option}")
+
 
 def main_menu(pet):
     while True:

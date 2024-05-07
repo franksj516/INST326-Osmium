@@ -1,0 +1,42 @@
+{
+    "customization_options": {
+      "colors": [
+        "red body",
+        "blue body",
+        "green body",
+        "yellow body",
+        "purple body",
+        "orange body",
+        "pink body",
+        "black body",
+        "white body",
+        "rainbow body"
+      ],
+      "habitats": [
+        "forest habitat",
+        "beach habitat",
+        "mountains habitat",
+        "city habitat",
+        "jungle habitat",
+        "desert habitat"
+      ],
+      "headwear": [
+        "bowtie",
+        "hat",
+        "crown",
+        "bandana",
+        "tiara",
+        "headphones",
+        "sunglasses"
+      ],
+      "accessories": [
+        "glasses",
+        "scarf",
+        "necklace",
+        "wings",
+        "backpack",
+        "collar"
+      ]
+    }
+  }
+  
