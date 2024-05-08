@@ -20,8 +20,8 @@ class Pet:
         customizations (dict): Current customizations applied to the pet.
     """
     def __init__(self, name, pet_type, level=1):
-        """Initializes a Pet object with name, type, and optionally level, 
-            along with default settings for health, happiness, and other properties.
+        """Initializes a Pet object with name, type, and level, along with default 
+        settings for health, happiness, and other properties.
         """
         self.name = name
         self.pet_type = pet_type
